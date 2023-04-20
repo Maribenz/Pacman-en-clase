@@ -1,0 +1,31 @@
+import wollok.game.*
+import personajePacman.*
+
+
+program pacman {
+	
+	// límites del juego
+	game.width(14)
+	game.height(8)
+	game.title("Pacman!")
+	
+	// fondo
+	game.boardGround("pacmanBackground.jpg")
+	game.addVisualCharacter(pacman)
+	game.addVisual(fantasma)
+	
+	game.whenCollideDo(fantasma, {
+		personaje => personaje.chocarCon(fantasma)
+		if(personaje.vidas() == 0) {
+			game.stop()
+		}
+	})
+	
+	game.onTick(1.randomUpTo(3) * 1000, "movimiento", {
+			fantasma.acercarseA(pacman)
+		})
+	
+	// que arranque el juego!
+	game.start()
+	
+}
